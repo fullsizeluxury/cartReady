@@ -5,7 +5,50 @@
     <script src="/socket.io/socket.io.js"></script>
     <!--<meta http-equiv="refresh" content="60"> -->
     <script>
-         const socket = io();
+        const socket = io();
+
+        socket.on('connect', () => {
+            var dcPopup = document.getElementById("disconnectedPopup");
+            if (dcPopup != null) {
+                dcPopup.remove();
+            }
+            document.getElementById('events').appendChild(connectedPopUp());
+
+        });
+
+
+        socket.on('disconnect', () => {
+            var connected = document.getElementById("connectedPopUp");
+            if (connected != null) {
+                connected.remove();
+            }
+            document.getElementById('events').appendChild(dcPopUp());
+        });
+        socket.on('ready', () => {
+            var slider = document.getElementById('readySlider');
+            slider.setAttribute("checked","checked")
+        });
+
+        socket.on('taken', () => {
+            var slider = document.getElementById('readySlider');
+            slider.removeAttribute("checked","checked");
+
+        });
+        const dcPopUp = () => {
+            var disconnectedPopUp = document.createElement('div');
+            disconnectedPopUp.setAttribute("class", "disconnected");
+            disconnectedPopUp.setAttribute("id", "disconnectedPopup");
+            disconnectedPopUp.innerHTML = "Disconnected";
+            return disconnectedPopUp;
+        }
+
+        const connectedPopUp = () => {
+            var connected = document.createElement('div');
+            connected.setAttribute("class", "connected");
+            connected.setAttribute("id", "connectedPopUp");
+            connected.innerHTML = "Connected";
+            return connected;
+        }
         function myFunction() {
             // Get the checkbox
             var checkBox = document.getElementById("readySlider");
@@ -109,21 +152,53 @@
             font-family: "Gotham";
             background-size: cover;
         }
+
+        .connected {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: darkblue;
+            color: lightblue;
+            padding: 10px;
+            display: inline-block;
+            font-size: 12px;
+            border-radius: 50px;
+        }
+
+        .disconnected {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            color: white;
+            padding: 10px;
+            display: inline-block;
+            font-size: 12px;
+            border-radius: 50px;
+            animation: blinkingBackground 4s infinite;
+        }
+
+        @keyframes blinkingBackground {
+            50% {
+                background-color: #ef0a1a;
+            }
+        }
+
     </style>
 </head>
 
 <body>
+    <div id="events">
+
+    </div>
     <div id="readySwitch">
         <label class="switch">
             <input type="checkbox" onClick="myFunction()" id="readySlider">
             <span class="slider round">
             </span>
+
         </label>
+        Cart Ready Toggle
     </div>
-
-    <p id="text" style="display:none">Slider is ON!</p>
-
-
 </body>
 
 </html>
