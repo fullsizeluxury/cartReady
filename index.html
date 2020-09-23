@@ -29,7 +29,7 @@
     font-family: "Gotham";
   }
 
-  .connected{
+  .connected {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -40,7 +40,8 @@
     font-size: 12px;
     border-radius: 50px;
   }
-  .disconnected{
+
+  .disconnected {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -78,7 +79,7 @@
 
   <script>
     const $events = document.getElementById('events');
-  
+
     const newItem = () => {
       const item = document.createElement('audio');
       item.setAttribute("src", "audio/purge_siren.mp3");
@@ -93,7 +94,7 @@
       item2.innerHTML = "CART READY";
       return item2;
     }
-  
+
     const socket = io();
 
     socket.on('connect', () => {
@@ -104,12 +105,12 @@
       document.getElementById('events').appendChild(connectedPopUp());
 
     });
-  
+
     socket.on('ready', () => {
       document.getElementById('events').appendChild(newItem());
       document.getElementById('events').appendChild(newItem2());
     });
-  
+
     socket.on('taken', () => {
       var siren = document.getElementById("siren");
       siren.remove();
@@ -117,13 +118,13 @@
       cartPopup.remove();
     });
 
-    socket.on('disconnect',() => {
+    socket.on('disconnect', () => {
       var siren = document.getElementById("siren");
       var cartPopup = document.getElementById("popup");
       var connected = document.getElementById("connectedPopUp");
       if (siren != null) {
-      siren.remove();
-      cartPopup.remove();
+        siren.remove();
+        cartPopup.remove();
       }
       if (connected != null) {
         connected.remove();
@@ -131,7 +132,7 @@
       document.getElementById('events').appendChild(dcPopUp());
     });
     const dcPopUp = () => {
-      var disconnectedPopUp = document.createElement('div') ; 
+      var disconnectedPopUp = document.createElement('div');
       disconnectedPopUp.setAttribute("class", "disconnected");
       disconnectedPopUp.setAttribute("id", "disconnectedPopup");
       disconnectedPopUp.innerHTML = "Disconnected";
@@ -141,11 +142,11 @@
     const connectedPopUp = () => {
       var connected = document.createElement('div');
       connected.setAttribute("class", "connected");
-      connected.setAttribute("id","connectedPopUp");
+      connected.setAttribute("id", "connectedPopUp");
       connected.innerHTML = "Connected";
       return connected;
     }
-  
+
     function sendReady() {
       socket.emit('ready');
     };
@@ -153,7 +154,7 @@
       socket.emit('taken');
     };
   </script>
-  
+
 </body>
 
 </html>

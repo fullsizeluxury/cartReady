@@ -26,12 +26,12 @@
         });
         socket.on('ready', () => {
             var slider = document.getElementById('readySlider');
-            slider.setAttribute("checked","checked")
+            slider.setAttribute("checked", "checked")
         });
 
         socket.on('taken', () => {
             var slider = document.getElementById('readySlider');
-            slider.removeAttribute("checked","checked");
+            slider.removeAttribute("checked", "checked");
 
         });
         const dcPopUp = () => {
@@ -182,7 +182,6 @@
                 background-color: #ef0a1a;
             }
         }
-
     </style>
 </head>
 
