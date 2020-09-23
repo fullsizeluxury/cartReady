@@ -3,7 +3,6 @@
 
 <head>
     <script src="/socket.io/socket.io.js"></script>
-    <!--<meta http-equiv="refresh" content="60"> -->
     <script>
         const socket = io();
 
@@ -28,6 +27,13 @@
             var slider = document.getElementById('readySlider');
             slider.setAttribute("checked", "checked")
         });
+        socket.on('listenerPing', () => {
+            var listenerOn = document.getElementById('listenerConnectedPopup');
+            if (listenerOn == null) {
+            document.getElementById('events').appendChild(listenerPopUp());            
+            }
+        });
+
 
         socket.on('taken', () => {
             var slider = document.getElementById('readySlider');
@@ -38,15 +44,21 @@
             var disconnectedPopUp = document.createElement('div');
             disconnectedPopUp.setAttribute("class", "disconnected");
             disconnectedPopUp.setAttribute("id", "disconnectedPopup");
-            disconnectedPopUp.innerHTML = "Disconnected";
+            disconnectedPopUp.innerHTML = "Server Disconnected";
             return disconnectedPopUp;
         }
-
+        const listenerPopUp = () => {
+            var connected = document.createElement('div');
+            connected.setAttribute("class", "listenerConnected");
+            connected.setAttribute("id", "listenerConnectedPopUp");
+            connected.innerHTML = "Listener Connected";
+            return connected;
+        }
         const connectedPopUp = () => {
             var connected = document.createElement('div');
             connected.setAttribute("class", "connected");
             connected.setAttribute("id", "connectedPopUp");
-            connected.innerHTML = "Connected";
+            connected.innerHTML = "Server Connected";
             return connected;
         }
         function myFunction() {
@@ -157,6 +169,17 @@
             position: absolute;
             bottom: 0;
             right: 0;
+            background-color: darkblue;
+            color: lightblue;
+            padding: 10px;
+            display: inline-block;
+            font-size: 12px;
+            border-radius: 50px;
+        }
+        .listenerConnected {
+            position: absolute;
+            bottom: 0;
+            left: 0;
             background-color: darkblue;
             color: lightblue;
             padding: 10px;

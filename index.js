@@ -27,6 +27,10 @@ io.on('connect', socket => {
   });
   socket.on('taken', function (data) {
     io.emit('taken');
+    
+  });
+  socket.on('listenerPing', function (data) {
+    io.emit('listenerPing');
   });
 });
 
