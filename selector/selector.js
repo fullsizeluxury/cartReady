@@ -17,10 +17,7 @@ socket.on('disconnect', () => {
     }
     document.getElementById('events').appendChild(dcPopUp());
 });
-socket.on('ready', () => {
-    var slider = document.getElementById('readySlider');
-    slider.setAttribute("checked", "checked")
-});
+
 socket.on('listenerConnected', () => {
     var listenerOn = document.getElementById('listenerConnectedPopup');
     var noListeners = document.getElementById('noListenerPopup');
@@ -28,26 +25,47 @@ socket.on('listenerConnected', () => {
         noListeners.remove();
     }
     if (listenerOn == null) {
-    document.getElementById('events').appendChild(listenerPopUp());            
+        document.getElementById('events').appendChild(listenerPopUp());
     }
 });
 
 socket.on('noListeners', () => {
     var listenerOn = document.getElementById('listenerConnectedPopUp');
     if (listenerOn != null) {
-    listenerOn.remove();           
+        listenerOn.remove();
     }
     document.getElementById('events').appendChild(noListener());
 
 });
 
+socket.on('ready', () => {
+    var slider = document.getElementById('readySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received ready');
+});
 
+socket.on('alreadyReady', () => {
+    var slider = document.getElementById('readySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received alreadyready');
+});
 
 socket.on('taken', () => {
     var slider = document.getElementById('readySlider');
-    slider.removeAttribute("checked", "checked");
+    if (slider.checked) {
+        slider.checked = false;
+        console.log('slider unchecked');
+    }
+    console.log('received taken');
 
 });
+
 const dcPopUp = () => {
     var disconnectedPopUp = document.createElement('div');
     disconnectedPopUp.setAttribute("class", "disconnected");
@@ -55,6 +73,7 @@ const dcPopUp = () => {
     disconnectedPopUp.innerHTML = "Server Disconnected";
     return disconnectedPopUp;
 }
+
 const listenerPopUp = () => {
     var connected = document.createElement('div');
     connected.setAttribute("class", "listenerConnected");
@@ -62,6 +81,7 @@ const listenerPopUp = () => {
     connected.innerHTML = "Listener Connected";
     return connected;
 }
+
 const noListener = () => {
     var connected = document.createElement('div');
     connected.setAttribute("class", "noListeners");
@@ -69,6 +89,7 @@ const noListener = () => {
     connected.innerHTML = "No Listeners Connected";
     return connected;
 }
+
 const connectedPopUp = () => {
     var connected = document.createElement('div');
     connected.setAttribute("class", "connected");
@@ -76,6 +97,7 @@ const connectedPopUp = () => {
     connected.innerHTML = "Server Connected";
     return connected;
 }
+
 function myFunction() {
     // Get the checkbox
     var checkBox = document.getElementById("readySlider");
@@ -83,7 +105,7 @@ function myFunction() {
     if (checkBox.checked == true) {
         socket.emit('ready');
     } else {
-        socket.emit('taken');;
+        socket.emit('taken');
     }
 
 }

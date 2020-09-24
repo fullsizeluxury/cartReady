@@ -8,15 +8,20 @@
 </head>
 
 <body>
-    <div id="events"></div>
-    <div id="readySwitch">
-        <label class="switch">
-            <input type="checkbox" onClick="myFunction()" id="readySlider">
-            <span class="slider round">
-            </span>
-
-        </label>
-        Cart Ready Toggle
+    <div class="container">
+        <div id="events"></div>
+        <div id="readySwitch">
+            <div id="switchLabel">Cart Ready Toggle</div>
+            <label class="switch">
+                <input type="checkbox" onClick="myFunction()" id="readySlider">
+                <span class="slider round">
+                </span>
+            </label>
+        </div>
+        <div id="messagePrompt">
+            <input type="text" id="warehouseMessage" placeholder="Message for Warehouse">
+            <button type="submit" id="sendMessage"> Submit</button>
+        </div>
     </div>
 </body>
 

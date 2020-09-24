@@ -5,6 +5,7 @@ var app = express();
 
 var dir = path.join(__dirname, '/');
 var listeners = 0;
+var cartReady = 0;
 
 app.use(express.static(dir));
 var server = require('http').createServer(app)
@@ -18,13 +19,23 @@ io.on('connect', socket => {
   if(listeners >= 1) {
     io.emit('listenerConnected');
   }
+  if (listeners == 0) {
+    io.emit('noListeners');
+  }
+  if (cartReady == 1) {
+    io.emit('alreadyReady');
+  }
 
   socket.on('ready', function (data) {
     io.emit('ready');
+    cartReady=1;
+    console.log('cartReady');
   });
 
   socket.on('taken', function (data) {
     io.emit('taken');
+    cartReady=0;
+    console.log('cart taken');
   });
 
 

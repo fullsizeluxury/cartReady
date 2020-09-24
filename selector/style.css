@@ -14,9 +14,10 @@
     font-style: normal;
 }
 
-#readySelector {
-    margin: auto;
-
+.container {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
 }
 
 /* The switch - the box around the slider */
@@ -135,8 +136,19 @@ body {
     border-radius: 50px;
     animation: blinkingBackground 4s infinite;
 }
+#readySwitch {
+padding: 20px;
+    border-style: solid;
+    margin: 50px;
+    border-radius: 50px;
+}
 
-
+#messagePrompt {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    
+}
 @keyframes blinkingBackground {
     50% {
         background-color: #ef0a1a;
