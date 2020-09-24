@@ -4,13 +4,13 @@ const $events = document.getElementById('events');
 
 const socket = io();
 
+
 socket.on('connect', () => {
     var dcPopup = document.getElementById("disconnectedPopup");
     if (dcPopup != null) {
         dcPopup.remove();
     }
     document.getElementById('events').appendChild(connectedPopUp());
-    listenerPing();
 });
 
 socket.on('ready', () => {
@@ -69,14 +69,6 @@ function loopaudio() {
     }
 }
 
-function listenerPing() {
-    this.currentTime = 0;
-    var delay = setTimeout(function () {
-        socket.emit('listenerPing');
-    }, 5000);
-}
-
-
 const sirenAudio = () => {
     const item = document.createElement('audio');
     item.setAttribute("src", "audio/purge_siren.mp3");
@@ -91,6 +83,11 @@ const readyAlert = () => {
     item2.innerHTML = "CART READY";
     return item2;
 }
+
+const listenSocket = io('/listener');
+socket.on('connect', () => {
+});
+
 
 function sendReady() {
     socket.emit('ready');

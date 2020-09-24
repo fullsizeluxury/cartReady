@@ -124,6 +124,19 @@ body {
     animation: blinkingBackground 4s infinite;
 }
 
+.noListeners {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 50px;
+    animation: blinkingBackground 4s infinite;
+}
+
+
 @keyframes blinkingBackground {
     50% {
         background-color: #ef0a1a;

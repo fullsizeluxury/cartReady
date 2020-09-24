@@ -21,12 +21,26 @@ socket.on('ready', () => {
     var slider = document.getElementById('readySlider');
     slider.setAttribute("checked", "checked")
 });
-socket.on('listenerPing', () => {
+socket.on('listenerConnected', () => {
     var listenerOn = document.getElementById('listenerConnectedPopup');
+    var noListeners = document.getElementById('noListenerPopup');
+    if (noListeners != null) {
+        noListeners.remove();
+    }
     if (listenerOn == null) {
-        document.getElementById('events').appendChild(listenerPopUp());
+    document.getElementById('events').appendChild(listenerPopUp());            
     }
 });
+
+socket.on('noListeners', () => {
+    var listenerOn = document.getElementById('listenerConnectedPopUp');
+    if (listenerOn != null) {
+    listenerOn.remove();           
+    }
+    document.getElementById('events').appendChild(noListener());
+
+});
+
 
 
 socket.on('taken', () => {
@@ -46,6 +60,13 @@ const listenerPopUp = () => {
     connected.setAttribute("class", "listenerConnected");
     connected.setAttribute("id", "listenerConnectedPopUp");
     connected.innerHTML = "Listener Connected";
+    return connected;
+}
+const noListener = () => {
+    var connected = document.createElement('div');
+    connected.setAttribute("class", "noListeners");
+    connected.setAttribute("id", "noListenerPopup");
+    connected.innerHTML = "No Listeners Connected";
     return connected;
 }
 const connectedPopUp = () => {
