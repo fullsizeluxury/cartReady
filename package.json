@@ -1,0 +1,16 @@
+{
+  "name": "cartready",
+  "version": "1.0.0",
+  "description": "Warehouse Messaging app",
+  "main": "index.js",
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Michaels",
+  "license": "ISC"
+}
