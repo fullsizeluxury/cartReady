@@ -15,6 +15,9 @@ const io = require('socket.io')(server);
 
 io.on('connect', socket => {
   console.log('connect');
+  if(listeners >= 1) {
+    io.emit('listenerConnected');
+  }
 
   socket.on('ready', function (data) {
     io.emit('ready');
