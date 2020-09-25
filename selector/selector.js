@@ -5,38 +5,46 @@ socket.on('connect', () => {
     if (dcPopup != null) {
         dcPopup.remove();
     }
-    document.getElementById('events').appendChild(connectedPopUp());
+    document.getElementById('statusBar').appendChild(connectedPopUp());
 
 });
 
 
 socket.on('disconnect', () => {
     var connected = document.getElementById("connectedPopUp");
+    var listenerConnected = document.getElementById("listenerConnectedPopUp")
     if (connected != null) {
         connected.remove();
+        console.log("removed connected");
     }
-    document.getElementById('events').appendChild(dcPopUp());
+    if (listenerConnected != null) {
+        listenerConnected.remove();
+    }
+    document.getElementById('statusBar').appendChild(dcPopUp());
 });
 
 socket.on('listenerConnected', () => {
-    var listenerOn = document.getElementById('listenerConnectedPopup');
+    var listenerOn = document.getElementById('listenerConnectedPopUp');
     var noListeners = document.getElementById('noListenerPopup');
     if (noListeners != null) {
         noListeners.remove();
+        console.log("removed no listener prompt");
     }
     if (listenerOn == null) {
-        document.getElementById('events').appendChild(listenerPopUp());
+        document.getElementById('statusBar').appendChild(listenerPopUp());
     }
 });
 
 socket.on('noListeners', () => {
+    console.log('received noListeners');
     var listenerOn = document.getElementById('listenerConnectedPopUp');
     if (listenerOn != null) {
         listenerOn.remove();
     }
-    document.getElementById('events').appendChild(noListener());
-
-});
+    if (document.getElementById('noListenerPopup') == null) {
+        document.getElementById('statusBar').appendChild(noListener());
+    }
+    });
 
 socket.on('ready', () => {
     var slider = document.getElementById('readySlider');

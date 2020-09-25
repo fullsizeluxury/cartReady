@@ -102,6 +102,7 @@ body {
     background-image: url("/images/illustration.jpg");
     font-family: "Gotham";
     background-size: cover;
+    height: 100%;
 }
 
 .connected {

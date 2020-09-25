@@ -1,4 +1,4 @@
-const $events = document.getElementById('events');
+const $alerts = document.getElementById('alerts');
 
 
 
@@ -10,13 +10,13 @@ socket.on('connect', () => {
     if (dcPopup != null) {
         dcPopup.remove();
     }
-    document.getElementById('events').appendChild(connectedPopUp());
+    document.getElementById('statusBar').appendChild(connectedPopUp());
 });
 
 socket.on('ready', () => {
-    document.getElementById('events').appendChild(sirenAudio());
-    document.getElementById('events').appendChild(readyAlert());
-    loopaudio();
+    document.getElementById('alerts').appendChild(sirenAudio());
+    document.getElementById('alerts').appendChild(readyAlert());
+    loopaudio("siren");
 });
 
 socket.on('taken', () => {
@@ -37,8 +37,10 @@ socket.on('disconnect', () => {
     if (connected != null) {
         connected.remove();
     }
-    document.getElementById('events').appendChild(dcPopUp());
+    document.getElementById('statusBar').appendChild(dcPopUp());
 });
+
+
 const dcPopUp = () => {
     var disconnectedPopUp = document.createElement('div');
     disconnectedPopUp.setAttribute("class", "disconnected");
@@ -55,12 +57,12 @@ const connectedPopUp = () => {
     return connected;
 }
 
-function loopaudio() {
-    var audioControl = document.getElementById("siren");
+function loopaudio(id) {
+    var audioControl = document.getElementById(id);
     audioControl.onended = function () {
         this.currentTime = 0;
         var delay = setTimeout(function () {
-            var audioCheck = document.getElementById("siren");
+            var audioCheck = document.getElementById(id);
             if (audioCheck != null) {
                 audioControl.play();
                 clearTimeout(delay);
