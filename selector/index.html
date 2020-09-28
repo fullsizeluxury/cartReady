@@ -14,7 +14,7 @@
     <div class="container">
 
         <div id="readySwitch">
-            <div id="switchLabel">Cart Ready Toggle</div>
+            <h2 id="switchLabel">Cart Ready Toggle</h2>
             <label class="switch">
                 <input type="checkbox" onClick="myFunction()" id="readySlider">
                 <span class="slider round">
@@ -22,13 +22,23 @@
             </label>
         </div>
 
-        <form enctype="application/json" id="messagePrompt" name="messagePrompt">
-            <input type="text" id="mesageName" placeholder="From:" class="messageToWarehouse" name="messageName">
+        <form enctype="application/json" id="messagePrompt" name="messagePrompt" class="controlWrapper" required>
+            <h2>Send Message to Warehouse</h2>
+            <input type="text" id="mesageName" placeholder="From:" class="messageToWarehouse" name="messageName" required>
             <br>
             <input type="text" id="warehouseMessage" placeholder="Message for Warehouse" class="messageToWarehouse" name="warehouseMessage">
             <br>
-            <button>Send Message</button>
+            <input type="submit" id="warehouseSubmitButton" class="messageToWarehouse" value="Send">
         </form>
+
+        <div id="messageDisplay" class="controlWrapper">
+            <h2 id="messageDisplayHeading">Active Messages</h2>
+            <div id="allMessages">
+                No Messages
+            </div>
+
+        </div>
+
 
     </div>
     <div class="statusBar" id="statusBar">

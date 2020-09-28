@@ -2,6 +2,7 @@ var path = require('path');
 
 var express = require('express');
 var app = express();
+var messages = [];
 
 var dir = path.join(__dirname, '/');
 var listeners = 0;
@@ -25,6 +26,10 @@ io.on('connect', socket => {
   if (cartReady == 1) {
     io.emit('alreadyReady');
   }
+  if (messages.length != 0) {
+    console.log('sendingCurrentMessages');
+    io.emit('currentMessages', messages)
+  }
 
   socket.on('ready', function (data) {
     io.emit('ready');
@@ -38,8 +43,17 @@ io.on('connect', socket => {
     console.log('cart taken');
   });
   socket.on('message to warehouse', function(data) {
-    io.emit('messageFromWarehouse', data);
+    messages.push(data);
+    console.log(messages);
+    io.emit('messageFromWarehouse', messages);
     console.log('emitted message from warehouse');
+    
+  });
+
+  socket.on('removeMessage', function(data) {
+    messages.splice(data, 1);
+    io.emit('currentMessages', messages);
+
   });
 
 

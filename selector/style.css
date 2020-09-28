@@ -11,12 +11,25 @@
     font-style: normal;
 }
 
+html body {
+    height: 100%;
+}
+
 .container {
     display: grid;
     justify-content: center;
     align-self: center;
     gap: 20px;
     text-align: center;
+}
+
+.controlWrapper {
+    position: relative;
+    border-style: solid;
+    border-color: black;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: rgba(0, 136, 204, .75);
 }
 
 #readySwitch {
@@ -154,14 +167,19 @@ body {
 }
 
 #messagePrompt {
-    position: relative;
-    border-style: solid;
     border-color: black;
-    border-radius: 20px;
-    padding: 15px;
-    background-color: rgba(0, 136, 204, .75);
-    display: none;
+   /* display: none; */
 
+}
+
+#allMessages {
+    display: inline;
+    margin: 30px;
+}
+
+p {
+    display: inline;
+    margin: 5px;
 }
 
 @keyframes blinkingBackground {

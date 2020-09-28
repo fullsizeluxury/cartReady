@@ -76,6 +76,17 @@ socket.on('taken', () => {
 
 });
 
+socket.on('messageFromWarehouse', function (data) {
+    console.log('receieved messageFromWarehouse');
+    console.log(data);
+    addMessages(data);
+
+});
+
+socket.on('currentMessages', function(data) {
+    addMessages(data);
+})
+
 const dcPopUp = () => {
     var disconnectedPopUp = document.createElement('div');
     disconnectedPopUp.setAttribute("class", "disconnected");
@@ -120,38 +131,45 @@ function myFunction() {
 
 }
 
-/*
-const formToJSON = elements => [].reduce.call(elements, (data, element) => {
-    data[element.name] = element.value;
-    return data;
-  }, {});
-
-
-const handleMessageSubmit = event => {
-    event.preventDefault();
-    const data = {};
-    const dataContainer = document.getElementsByClassName('messageToWarehouse')[0];
-    dataContainer.textContent = JSON.stringify(data, null, " ");
-}
-
-const form = document.getElementsByClassName('messageToWarehouse')[0];
-form.addEventListener('submit', handleMessageSubmit);
-
-const reducerFunction = (data, element) => {
-    data[element.name] = element.value;
-
-    console.log(JSON.stringinfy(data));
-
-    return data;
-}
-*/
-
 $('form[name="messagePrompt"]').submit(function (e) {
     e.preventDefault();
+
     var data = {
         name: $('[name="messageName"]').val(),
-        message: $('[name="warehouseMessage"]').val()
-    }
+        message: $('[name="warehouseMessage"]').val(),
+        id: Date.now()
+    };
     console.log('message function executed');
     socket.emit('message to warehouse', data);
 });
+
+function addMessages(data) {
+    removeAllChildNodes(document.getElementById('allMessages'));
+    for (var i = 0; i < data.length; i++) {
+        var message = document.createElement('p');
+        message.setAttribute("class", "warehouseMessage");
+        message.setAttribute("id", "message" + data[i].id);
+        message.innerHTML = i + 1 + ". " + data[i].message + "  -" + data[i].name;
+        document.getElementById('allMessages').appendChild(message);
+        var removeBox = document.createElement('input');
+        removeBox.setAttribute("type", "button");
+        removeBox.setAttribute("id", "button"+ i);
+        removeBox.setAttribute("value", "x");
+        removeBox.setAttribute("onclick", "removeMessage("+ i +")");
+        document.getElementById('allMessages').appendChild(removeBox);
+        document.getElementById('allMessages').appendChild(document.createElement("br"));
+    }
+}
+
+function removeMessage(i) {
+    socket.emit('removeMessage', i);
+    console.log('remove message '+ i);
+}
+
+function removeAllChildNodes(parent) {
+    if (parent.firstChild != null) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+}

@@ -1,25 +1,36 @@
 const $alerts = document.getElementById('alerts');
 
 
-
+var connected = 0;
 const socket = io();
 
 
 socket.on('connect', () => {
+
+
+    //check for disconnected popup and remove if present
     var dcPopup = document.getElementById("disconnectedPopup");
     if (dcPopup != null) {
         dcPopup.remove();
     }
+
+    //add connected popup
     document.getElementById('statusBar').appendChild(connectedPopUp());
 });
 
+//receive ready on main socket
 socket.on('ready', () => {
+
+    //add ready alert message and audio
     document.getElementById('alerts').appendChild(sirenAudio());
     document.getElementById('alerts').appendChild(readyAlert());
+    //loop siren audio
     loopaudio("siren");
 });
 
+//fires when a cart is ready at connection time
 socket.on('alreadyReady', () => {
+    //check to see if the alert already exists, if not, play it
     var check = document.getElementById("siren");
     if (check == null) {
         document.getElementById('alerts').appendChild(sirenAudio());
@@ -28,7 +39,10 @@ socket.on('alreadyReady', () => {
     }
 });
 
+//fires when the ready slider is unchecked
 socket.on('taken', () => {
+
+    //remove alert siren and mesage
     var siren = document.getElementById("siren");
     siren.remove();
     var cartPopup = document.getElementById("popup");
@@ -36,35 +50,45 @@ socket.on('taken', () => {
 });
 
 socket.on('disconnect', () => {
-    var siren = document.getElementById("siren");
-    var cartPopup = document.getElementById("popup");
+    connected = 0;
     var connected = document.getElementById("connectedPopUp");
-    if (siren != null) {
-        siren.remove();
-        cartPopup.remove();
-    }
+
+    //remove all alerts
+    removeAllChildNodes(document.getElementById('alerts'));
+    //removed connected indicator
     if (connected != null) {
         connected.remove();
     }
+    //add disconnected indicator
     document.getElementById('statusBar').appendChild(dcPopUp());
 });
 
+
+//fires when message is sent to the warehouse
 socket.on('messageFromWarehouse', function (data) {
     console.log('receieved messageFromWarehouse');
-    document.getElementById('alerts').appendChild(addMessage(data));
+    console.log(data);
+    //add message to screen and play alert sound once
+    document.getElementById('messages').appendChild(addMessage(data));
     messageAudio();
 
 });
 
+socket.on('currentMessages', function(data) {
+    addMessages(data);
+});
+
+//adds single message from selector to warehouse screens
+//receives array of objects where most recent message is in the last position
 function addMessage(data) {
     var message = document.createElement('div');
     message.setAttribute("class", "warehouseMessage");
-    // message.setAttribute("id", "message"+data.id)
-    message.innerHTML = data.message + "  -" + data.name;
+    message.setAttribute("id", data[data.length - 1].id);
+    message.innerHTML = data[data.length - 1].message + "  -" + data[data.length - 1].name;
     return message;
 }
 
-
+//creates the disconnected status object
 const dcPopUp = () => {
     var disconnectedPopUp = document.createElement('div');
     disconnectedPopUp.setAttribute("class", "disconnected");
@@ -73,6 +97,7 @@ const dcPopUp = () => {
     return disconnectedPopUp;
 }
 
+//creates the connected status object
 const connectedPopUp = () => {
     var connected = document.createElement('div');
     connected.setAttribute("class", "connected");
@@ -81,6 +106,7 @@ const connectedPopUp = () => {
     return connected;
 }
 
+//replays audio element 'id' 60 seconds after it has ended
 function loopaudio(id) {
     var audioControl = document.getElementById(id);
     audioControl.onended = function () {
@@ -95,6 +121,7 @@ function loopaudio(id) {
     }
 }
 
+//creates siren audio element
 const sirenAudio = () => {
     const item = document.createElement('audio');
     item.setAttribute("src", "audio/purge_siren.mp3");
@@ -103,6 +130,7 @@ const sirenAudio = () => {
     return item;
 };
 
+//creates message alert audio and removes after 3 seconds
 async function messageAudio() {
     const item = document.createElement('audio');
     item.setAttribute("src", "audio/metalgear.mp3");
@@ -112,6 +140,8 @@ async function messageAudio() {
     await new Promise(r => setTimeout(r, 3000));
     document.getElementById('messageSound').remove();
 };
+
+//creates cart ready alert message
 const readyAlert = () => {
     const item2 = document.createElement('div');
     item2.setAttribute("class", "blink-bg");
@@ -124,6 +154,10 @@ const listenSocket = io('/listener');
 socket.on('connect', () => {
 });
 
+listenSocket.on('currentMessages', function (data) {
+    addMessages(data);
+});
+
 
 function sendReady() {
     socket.emit('ready');
@@ -131,3 +165,22 @@ function sendReady() {
 function sendTaken() {
     socket.emit('taken');
 };
+
+function addMessages(data) {
+    removeAllChildNodes(document.getElementById('messages'));
+    for (var i = 0; i < data.length; i++) {
+        var message = document.createElement('div');
+        message.setAttribute("class", "warehouseMessage");
+        message.setAttribute("id", data[i].id);
+        message.innerHTML = data[i].message + "  -" + data[i].name;
+        document.getElementById('messages').appendChild(message);
+    }
+}
+
+function removeAllChildNodes(parent) {
+    if (parent.firstChild != null) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+}

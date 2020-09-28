@@ -11,6 +11,10 @@
   font-style: normal;
 }
 
+html{
+  height: 100%;
+}
+
 body {
   background-size: cover;
   background-image: url("images/illustration.jpg");
@@ -30,7 +34,7 @@ align-items: center;
 justify-content: center;
 }
 
-.alerts div {
+div {
   width: auto;
   height: auto;
 }
