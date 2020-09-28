@@ -1,3 +1,5 @@
+
+
 const socket = io();
 
 socket.on('connect', () => {
@@ -44,7 +46,7 @@ socket.on('noListeners', () => {
     if (document.getElementById('noListenerPopup') == null) {
         document.getElementById('statusBar').appendChild(noListener());
     }
-    });
+});
 
 socket.on('ready', () => {
     var slider = document.getElementById('readySlider');
@@ -117,3 +119,39 @@ function myFunction() {
     }
 
 }
+
+/*
+const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+    data[element.name] = element.value;
+    return data;
+  }, {});
+
+
+const handleMessageSubmit = event => {
+    event.preventDefault();
+    const data = {};
+    const dataContainer = document.getElementsByClassName('messageToWarehouse')[0];
+    dataContainer.textContent = JSON.stringify(data, null, " ");
+}
+
+const form = document.getElementsByClassName('messageToWarehouse')[0];
+form.addEventListener('submit', handleMessageSubmit);
+
+const reducerFunction = (data, element) => {
+    data[element.name] = element.value;
+
+    console.log(JSON.stringinfy(data));
+
+    return data;
+}
+*/
+
+$('form[name="messagePrompt"]').submit(function (e) {
+    e.preventDefault();
+    var data = {
+        name: $('[name="messageName"]').val(),
+        message: $('[name="warehouseMessage"]').val()
+    }
+    console.log('message function executed');
+    socket.emit('message to warehouse', data);
+});

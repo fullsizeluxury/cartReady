@@ -37,6 +37,10 @@ io.on('connect', socket => {
     cartReady=0;
     console.log('cart taken');
   });
+  socket.on('message to warehouse', function(data) {
+    io.emit('messageFromWarehouse', data);
+    console.log('emitted message from warehouse');
+  });
 
 
 });
@@ -56,7 +60,6 @@ listener.on('connect', socket => {
       io.emit('noListeners');
     }
   });
-
 });
 
 

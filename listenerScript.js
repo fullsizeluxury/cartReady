@@ -19,6 +19,15 @@ socket.on('ready', () => {
     loopaudio("siren");
 });
 
+socket.on('alreadyReady', () => {
+    var check = document.getElementById("siren");
+    if (check == null) {
+        document.getElementById('alerts').appendChild(sirenAudio());
+        document.getElementById('alerts').appendChild(readyAlert());
+        loopaudio("siren");
+    }
+});
+
 socket.on('taken', () => {
     var siren = document.getElementById("siren");
     siren.remove();
@@ -39,6 +48,20 @@ socket.on('disconnect', () => {
     }
     document.getElementById('statusBar').appendChild(dcPopUp());
 });
+
+socket.on('messageFromWarehouse', function (data) {
+    console.log('receieved messageFromWarehouse');
+    document.getElementById('alerts').appendChild(addMessage(data));
+    messageAudio();
+
+});
+
+function addMessage(data) {
+    var message = document.createElement('div');
+    message.setAttribute("class", "warehouseMessage");
+    message.innerHTML = data.message + "  -" + data.name;
+    return message;
+}
 
 
 const dcPopUp = () => {
@@ -77,6 +100,16 @@ const sirenAudio = () => {
     item.setAttribute("id", "siren");
     item.setAttribute("autoplay", "autoplay")
     return item;
+};
+
+async function messageAudio() {
+    const item = document.createElement('audio');
+    item.setAttribute("src", "audio/metalgear.mp3");
+    item.setAttribute("id", "messageSound");
+    item.autoplay = true;
+    document.getElementById('alerts').appendChild(item);
+    await new Promise(r => setTimeout(r, 3000));
+    document.getElementById('messageSound').remove();
 };
 const readyAlert = () => {
     const item2 = document.createElement('div');

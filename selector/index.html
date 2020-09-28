@@ -3,8 +3,11 @@
 
 <head>
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="selector.js"></script>
+    <script type="text/javascript" src="selector.js" defer></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <link rel="stylesheet" href="style.css">
+    <title>Warehouse Menu</title>
+    <link rel="shortcut icon" href="/images/sti-favicon.png">
 </head>
 
 <body>
@@ -18,12 +21,20 @@
                 </span>
             </label>
         </div>
-        <div id="messagePrompt">
-            <input type="text" id="warehouseMessage" placeholder="Message for Warehouse">
-            <button type="submit" id="sendMessage"> Submit</button>
-        </div>
+
+        <form enctype="application/json" id="messagePrompt" name="messagePrompt">
+            <input type="text" id="mesageName" placeholder="From:" class="messageToWarehouse" name="messageName">
+            <br>
+            <input type="text" id="warehouseMessage" placeholder="Message for Warehouse" class="messageToWarehouse" name="warehouseMessage">
+            <br>
+            <button>Send Message</button>
+        </form>
+
     </div>
-    <div class="statusBar" id="statusBar"></div>
+    <div class="statusBar" id="statusBar">
+<div></div>
+
+    </div>
 </body>
 
 </html>
