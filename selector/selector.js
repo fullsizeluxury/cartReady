@@ -23,6 +23,7 @@ socket.on('disconnect', () => {
         listenerConnected.remove();
     }
     document.getElementById('statusBar').appendChild(dcPopUp());
+    removeAllChildNodes(document.getElementById('allMessages'));
 });
 
 socket.on('listenerConnected', () => {
@@ -146,7 +147,7 @@ $('form[name="messagePrompt"]').submit(function (e) {
 function addMessages(data) {
     removeAllChildNodes(document.getElementById('allMessages'));
     for (var i = 0; i < data.length; i++) {
-        var message = document.createElement('p');
+        var message = document.createElement('label');
         message.setAttribute("class", "warehouseMessage");
         message.setAttribute("id", "message" + data[i].id);
         message.innerHTML = i + 1 + ". " + data[i].message + "  -" + data[i].name;

@@ -24,9 +24,11 @@
 
         <form enctype="application/json" id="messagePrompt" name="messagePrompt" class="controlWrapper" required>
             <h2>Send Message to Warehouse</h2>
-            <input type="text" id="mesageName" placeholder="From:" class="messageToWarehouse" name="messageName" required>
+            <label for="messageName">From:</label>
+            <input type="text" id="messageName" placeholder="Your Name" class="messageToWarehouse" name="messageName" required>
             <br>
-            <input type="text" id="warehouseMessage" placeholder="Message for Warehouse" class="messageToWarehouse" name="warehouseMessage">
+            <label for="warehouseMessage">Message: </label>
+            <input type="text" id="warehouseMessage" placeholder="Enter Message Here" class="messageToWarehouse" name="warehouseMessage">
             <br>
             <input type="submit" id="warehouseSubmitButton" class="messageToWarehouse" value="Send">
         </form>

@@ -1,5 +1,5 @@
 var path = require('path');
-
+var fs = require('fs');
 var express = require('express');
 var app = express();
 var messages = [];
@@ -16,7 +16,10 @@ const io = require('socket.io')(server);
 
 
 io.on('connect', socket => {
+  var clientIp = socket.request.connection.remoteAddress;
   console.log('connect');
+  console.log(clientIp);
+  
   if(listeners >= 1) {
     io.emit('listenerConnected');
   }
@@ -44,9 +47,10 @@ io.on('connect', socket => {
   });
   socket.on('message to warehouse', function(data) {
     messages.push(data);
-    console.log(messages);
+    //console.log(messages);
     io.emit('messageFromWarehouse', messages);
     console.log('emitted message from warehouse');
+    fs.appendFileSync('messagelog.txt', Date() + JSON.stringify(data)+ " " + clientIp + "\r");
     
   });
 
