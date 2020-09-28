@@ -59,6 +59,7 @@ socket.on('messageFromWarehouse', function (data) {
 function addMessage(data) {
     var message = document.createElement('div');
     message.setAttribute("class", "warehouseMessage");
+    // message.setAttribute("id", "message"+data.id)
     message.innerHTML = data.message + "  -" + data.name;
     return message;
 }
