@@ -74,7 +74,7 @@ socket.on('messageFromWarehouse', function (data) {
 
 });
 
-socket.on('currentMessages', function(data) {
+socket.on('currentMessages', function (data) {
     addMessages(data);
 });
 
@@ -82,9 +82,12 @@ socket.on('currentMessages', function(data) {
 //receives array of objects where most recent message is in the last position
 function addMessage(data) {
     var message = document.createElement('div');
+    var date = new Date(data[data.length - 1].id);
+    var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
+    var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
     message.setAttribute("class", "warehouseMessage");
     message.setAttribute("id", data[data.length - 1].id);
-    message.innerHTML = data[data.length - 1].message + "  -" + data[data.length - 1].name;
+    message.innerHTML = data[data.length - 1].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[data.length - 1].message;
     return message;
 }
 
@@ -172,7 +175,11 @@ function addMessages(data) {
         var message = document.createElement('div');
         message.setAttribute("class", "warehouseMessage");
         message.setAttribute("id", data[i].id);
-        message.innerHTML = data[i].message + "  -" + data[i].name;
+        var date = new Date(data[i].id);
+        var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
+        var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
+        message.innerHTML = data[i].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[i].message;
+        console.log(data[i].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): ");
         document.getElementById('messages').appendChild(message);
     }
 }

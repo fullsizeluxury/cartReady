@@ -147,18 +147,25 @@ $('form[name="messagePrompt"]').submit(function (e) {
 function addMessages(data) {
     removeAllChildNodes(document.getElementById('allMessages'));
     for (var i = 0; i < data.length; i++) {
+
         var message = document.createElement('label');
         message.setAttribute("class", "warehouseMessage");
         message.setAttribute("id", "message" + data[i].id);
-        message.innerHTML = i + 1 + ". " + data[i].message + "  -" + data[i].name;
+        var date = new Date(data[i].id);
+        var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
+        var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
+        message.innerHTML = data[i].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[i].message;
         document.getElementById('allMessages').appendChild(message);
         var removeBox = document.createElement('input');
         removeBox.setAttribute("type", "button");
         removeBox.setAttribute("id", "button"+ i);
-        removeBox.setAttribute("value", "x");
+        removeBox.setAttribute("class", "removeButton");
+        removeBox.setAttribute("value", "Remove");
         removeBox.setAttribute("onclick", "removeMessage("+ i +")");
         document.getElementById('allMessages').appendChild(removeBox);
         document.getElementById('allMessages').appendChild(document.createElement("br"));
+        
+        console.log(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     }
 }
 

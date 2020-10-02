@@ -24,12 +24,21 @@ html body {
 }
 
 .controlWrapper {
+    display: table;
     position: relative;
     border-style: solid;
     border-color: black;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 15px;
     background-color: rgba(0, 136, 204, .75);
+    align-items: center;
+    align-content: center;
+    object-fit: cover;
+}
+
+input[type=text] {
+    width: 100%;
+    display: table-cell;
 }
 
 #readySwitch {
@@ -173,13 +182,31 @@ body {
 }
 
 #allMessages {
-    display: inline;
+    text-align: center;
     margin: 30px;
+    width: 50vw;
 }
 
 p {
     display: inline;
     margin: 5px;
+}
+
+.removeButton {
+    appearance: none;
+    color: black;
+    margin: 5px 5px;
+    background-color: white;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: red;
+    text-align: center;
+    font-family: Gotham;
+    font-size: 12px;
+    opacity: .5;
+}
+.removeButton:hover {
+    opacity: .9;
 }
 
 @keyframes blinkingBackground {

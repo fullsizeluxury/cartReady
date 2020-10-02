@@ -12,14 +12,19 @@
 }
 
 html{
-  height: 100%;
+  height: 100vh;
+
 }
 
 body {
-  background-size: cover;
-  background-image: url("images/illustration.jpg");
+  background-size: 100vw 100vh;
+  /*
+  background-image: url('/images/Slide1.PNG'), url('/images/Slide2.PNG'), url('/images/Slide3.PNG'), url('images/Slide4.PNG');
+  */
+  animation: bgSlideshow 40s infinite;
   font-family: "Gotham";
   height: 100%;
+  margin: 0px;
 }
 
 .alerts {
@@ -70,11 +75,19 @@ div {
   white-space: nowrap;
   border-radius: 100px;
   animation: blinkingBackground 4s infinite;
+  background-color: #ef0a1a;
 }
 
 @keyframes blinkingBackground {
+  0% {
+    opacity: 0%;
+  }
   50% {
-    background-color: #ef0a1a;
+
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
   }
 }
 
@@ -85,4 +98,34 @@ div {
   margin: 10px;
   padding: 10px;
   background-color: rgba(255, 0, 0, .75)
+}
+
+@keyframes bgSlideshow {
+  0% {
+    background-image: url('/images/Slide1.PNG');
+  }
+  12.5% {
+    background-image: url('/images/Slide2.PNG');
+  }
+  25% {
+    background-image: url('/images/Slide2.PNG');
+  }
+  37.5% {
+    background-image: url('/images/Slide3.PNG');
+  }
+  50% {
+    background-image: url('/images/Slide3.PNG');
+  }
+  62.5% {
+   background-image: url('/images/Slide4.PNG');
+  }
+  75% {
+    background-image: url('/images/Slide4.PNG');
+  }
+  87.5% {
+    background-image: url('/images/Slide1.PNG');
+  }
+  100% {
+    background-image: url('/images/Slide1.PNG');
+  }
 }
