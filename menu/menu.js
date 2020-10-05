@@ -84,7 +84,7 @@ socket.on('messageFromWarehouse', function (data) {
 
 });
 
-socket.on('currentMessages', function(data) {
+socket.on('currentMessages', function (data) {
     addMessages(data);
 })
 
@@ -155,20 +155,20 @@ function addMessages(data) {
         document.getElementById('allMessages').appendChild(message);
         var removeBox = document.createElement('input');
         removeBox.setAttribute("type", "button");
-        removeBox.setAttribute("id", "button"+ i);
+        removeBox.setAttribute("id", "button" + i);
         removeBox.setAttribute("class", "removeButton");
         removeBox.setAttribute("value", "Remove");
-        removeBox.setAttribute("onclick", "removeMessage("+ i +")");
+        removeBox.setAttribute("onclick", "removeMessage(" + i + ")");
         document.getElementById('allMessages').appendChild(removeBox);
         document.getElementById('allMessages').appendChild(document.createElement("br"));
-        
+
         console.log(timeString(data[i].date));
     }
 }
 
 function removeMessage(i) {
     socket.emit('removeMessage', i);
-    console.log('remove message '+ i);
+    console.log('remove message ' + i);
 }
 
 function removeAllChildNodes(parent) {
@@ -196,7 +196,5 @@ function timeString(data) {
     else {
         minutes = "0" + date.getMinutes();
     }
-    console.log(hours + ' hours ' + minutes + "    " + typeof hours + typeof minutes);
-    //var minutes = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : (date.getMinutes());
     return hours + ":" + minutes + " " + timeOfDay;
 }
