@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Gotham';
+    src: url('/fonts/Gotham-Bold.eot');
+    /* IE9 Compat Modes */
+    src: url('/fonts/Gotham-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('/fonts/Gotham-Bold.woff') format('woff'), /* Modern Browsers */
+    url('/fonts/Gotham-Bold.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('/fonts/Gotham-Bold.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+    font-weight: 700;
+    font-style: normal;
+}
+
+html body {
+    height: 100%;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    align-self: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.controlWrapper {
+    display: table;
+    position: relative;
+    border-style: solid;
+    border-color: black;
+    border-radius: 30px;
+    padding: 15px;
+    background-color: rgba(0, 136, 204, .75);
+    align-items: center;
+    align-content: center;
+    object-fit: cover;
+}
+
+input[type=text] {
+    width: 100%;
+    display: table-cell;
+}
+
+#readySwitch {
+    padding: 10px;
+    border-style: solid;
+    border-color: #3d3734;
+    color: #3d3734;
+    margin: 50px;
+    border-radius: 20px;
+    background-color: rgba(0, 136, 204, .75);
+    align-items: center;
+}
+
+/* The switch - the box around the slider */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin: 10px;
+}
+
+/* Hide default HTML checkbox */
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+body {
+    background-image: url("/images/illustration.jpg");
+    font-family: "Gotham";
+    background-size: cover;
+    height: 100%;
+}
+
+.connected {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: darkblue;
+    color: lightblue;
+    padding: 10px;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 50px;
+}
+
+.listenerConnected {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: darkblue;
+    color: lightblue;
+    padding: 10px;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 50px;
+}
+
+.disconnected {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 50px;
+    animation: blinkingBackground 4s infinite;
+}
+
+.noListeners {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 50px;
+    animation: blinkingBackground 4s infinite;
+}
+
+#messagePrompt {
+    border-color: black;
+   /* display: none; */
+
+}
+
+#allMessages {
+    text-align: center;
+    margin: 30px;
+    width: 50vw;
+}
+
+p {
+    display: inline;
+    margin: 5px;
+}
+
+.removeButton {
+    appearance: none;
+    color: black;
+    margin: 5px 5px;
+    background-color: white;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: red;
+    text-align: center;
+    font-family: Gotham;
+    font-size: 12px;
+    opacity: .5;
+}
+.removeButton:hover {
+    opacity: .9;
+}
+
+@keyframes blinkingBackground {
+    50% {
+        background-color: #ef0a1a;
+    }
+}
