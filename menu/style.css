@@ -12,15 +12,17 @@
 }
 
 html body {
-    height: 100%;
+    height: 100vh;
+    margin: 0px;
 }
 
 .container {
-    display: grid;
-    justify-content: center;
-    align-self: center;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    justify-content: center;
+
+    height: 100vh;
 }
 
 .controlWrapper {
@@ -33,7 +35,10 @@ html body {
     background-color: rgba(0, 136, 204, .75);
     align-items: center;
     align-content: center;
-    object-fit: cover;
+    margin: 10px;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 input[type=text] {
@@ -46,10 +51,15 @@ input[type=text] {
     border-style: solid;
     border-color: #3d3734;
     color: #3d3734;
-    margin: 50px;
+    margin: 10px;
     border-radius: 20px;
     background-color: rgba(0, 136, 204, .75);
     align-items: center;
+
+    align-self: center;
+    justify-self: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* The switch - the box around the slider */

@@ -86,6 +86,12 @@ socket.on('messageFromWarehouse', function (data) {
 
 socket.on('currentMessages', function (data) {
     addMessages(data);
+    console.log('added current messages');
+    console.log(data);
+    if (data.length == 0) {
+        document.getElementById('allMessages').innerHTML= 'No Messages';
+        console.log('length of 0')
+    }
 })
 
 const dcPopUp = () => {
@@ -161,8 +167,6 @@ function addMessages(data) {
         removeBox.setAttribute("onclick", "removeMessage(" + i + ")");
         document.getElementById('allMessages').appendChild(removeBox);
         document.getElementById('allMessages').appendChild(document.createElement("br"));
-
-        console.log(timeString(data[i].date));
     }
 }
 
