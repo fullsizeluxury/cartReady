@@ -23,7 +23,7 @@ body {
   */
   animation: bgSlideshow 40s infinite;
   font-family: "Gotham";
-  height: 100%;
+  height: 100vh;
   margin: 0px;
 }
 

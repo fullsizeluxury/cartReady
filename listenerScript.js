@@ -175,11 +175,7 @@ function addMessages(data) {
         var message = document.createElement('div');
         message.setAttribute("class", "warehouseMessage");
         message.setAttribute("id", data[i].id);
-        var date = new Date(data[i].id);
-        var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
-        var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
-        message.innerHTML = data[i].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[i].message;
-        console.log(data[i].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): ");
+        message.innerHTML = data[i].name + " (" + timeString(data[i].id) + "): " + data[i].message;
         document.getElementById('messages').appendChild(message);
     }
 }
@@ -190,4 +186,24 @@ function removeAllChildNodes(parent) {
             parent.removeChild(parent.firstChild);
         }
     }
+}
+
+function timeString(data) {
+    var date = new Date(data);
+    var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
+    var hours;
+    var minutes;
+    if (date.getHours() < 13) {
+        hours = date.getHours();
+    }
+    else {
+        hours = (date.getHours() - 12);
+    }
+    if (date.getMinutes() > 9) {
+        minutes = date.getMinutes();
+    }
+    else {
+        minutes = "0" + date.getMinutes();
+    }
+    return hours + ":" + minutes + " " + timeOfDay;
 }
