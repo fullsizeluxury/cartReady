@@ -65,7 +65,7 @@ socket.on('disconnect', () => {
 
 
 //fires when message is sent to the warehouse
-socket.on('messageFromWarehouse', function (data) {
+socket.on('messageFromWarehouse', function(data) {
     console.log('receieved messageFromWarehouse');
     console.log(data);
     //add message to screen and play alert sound once
@@ -74,7 +74,7 @@ socket.on('messageFromWarehouse', function (data) {
 
 });
 
-socket.on('currentMessages', function (data) {
+socket.on('currentMessages', function(data) {
     addMessages(data);
 });
 
@@ -112,9 +112,9 @@ const connectedPopUp = () => {
 //replays audio element 'id' 60 seconds after it has ended
 function loopaudio(id) {
     var audioControl = document.getElementById(id);
-    audioControl.onended = function () {
+    audioControl.onended = function() {
         this.currentTime = 0;
-        var delay = setTimeout(function () {
+        var delay = setTimeout(function() {
             var audioCheck = document.getElementById(id);
             if (audioCheck != null) {
                 audioControl.play();
@@ -127,7 +127,7 @@ function loopaudio(id) {
 //creates siren audio element
 const sirenAudio = () => {
     const item = document.createElement('audio');
-    item.setAttribute("src", "audio/purge_siren.mp3");
+    item.setAttribute("src", "audio/tts.mp3");
     item.setAttribute("id", "siren");
     item.setAttribute("autoplay", "autoplay")
     return item;
@@ -154,10 +154,9 @@ const readyAlert = () => {
 }
 
 const listenSocket = io('/listener');
-socket.on('connect', () => {
-});
+socket.on('connect', () => {});
 
-listenSocket.on('currentMessages', function (data) {
+listenSocket.on('currentMessages', function(data) {
     addMessages(data);
 });
 
@@ -165,6 +164,7 @@ listenSocket.on('currentMessages', function (data) {
 function sendReady() {
     socket.emit('ready');
 };
+
 function sendTaken() {
     socket.emit('taken');
 };
@@ -195,14 +195,12 @@ function timeString(data) {
     var minutes;
     if (date.getHours() < 13) {
         hours = date.getHours();
-    }
-    else {
+    } else {
         hours = (date.getHours() - 12);
     }
     if (date.getMinutes() > 9) {
         minutes = date.getMinutes();
-    }
-    else {
+    } else {
         minutes = "0" + date.getMinutes();
     }
     return hours + ":" + minutes + " " + timeOfDay;
