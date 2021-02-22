@@ -88,6 +88,7 @@ function addMessage(data) {
     message.setAttribute("class", "warehouseMessage");
     message.setAttribute("id", data[data.length - 1].id);
     message.innerHTML = data[data.length - 1].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[data.length - 1].message;
+    message.innerHTML = data[data.length - 1].name + " (" + timeString(data[data.length - 1].id) + "): " + data[data.length - 1].message;
     return message;
 }
 
@@ -136,7 +137,7 @@ const sirenAudio = () => {
 //creates message alert audio and removes after 3 seconds
 async function messageAudio() {
     const item = document.createElement('audio');
-    item.setAttribute("src", "audio/metalgear.mp3");
+    item.setAttribute("src", "audio/Hey.mp3");
     item.setAttribute("id", "messageSound");
     item.autoplay = true;
     document.getElementById('alerts').appendChild(item);
