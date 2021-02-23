@@ -4,7 +4,7 @@ const $alerts = document.getElementById('alerts');
 var connected = 0;
 const socket = io();
 
-
+//*********************Status Functions*********************
 socket.on('connect', () => {
 
 
@@ -16,37 +16,6 @@ socket.on('connect', () => {
 
     //add connected popup
     document.getElementById('statusBar').appendChild(connectedPopUp());
-});
-
-//receive ready on main socket
-socket.on('ready', () => {
-
-    //add ready alert message and audio
-    document.getElementById('alerts').appendChild(sirenAudio());
-    document.getElementById('alerts').appendChild(readyAlert());
-    //loop siren audio
-    loopaudio("siren");
-});
-
-//fires when a cart is ready at connection time
-socket.on('alreadyReady', () => {
-    //check to see if the alert already exists, if not, play it
-    var check = document.getElementById("siren");
-    if (check == null) {
-        document.getElementById('alerts').appendChild(sirenAudio());
-        document.getElementById('alerts').appendChild(readyAlert());
-        loopaudio("siren");
-    }
-});
-
-//fires when the ready slider is unchecked
-socket.on('taken', () => {
-
-    //remove alert siren and mesage
-    var siren = document.getElementById("siren");
-    siren.remove();
-    var cartPopup = document.getElementById("popup");
-    cartPopup.remove();
 });
 
 socket.on('disconnect', () => {
@@ -64,33 +33,6 @@ socket.on('disconnect', () => {
 });
 
 
-//fires when message is sent to the warehouse
-socket.on('messageFromWarehouse', function(data) {
-    console.log('receieved messageFromWarehouse');
-    console.log(data);
-    //add message to screen and play alert sound once
-    document.getElementById('messages').appendChild(addMessage(data));
-    messageAudio();
-
-});
-
-socket.on('currentMessages', function(data) {
-    addMessages(data);
-});
-
-//adds single message from selector to warehouse screens
-//receives array of objects where most recent message is in the last position
-function addMessage(data) {
-    var message = document.createElement('div');
-    var date = new Date(data[data.length - 1].id);
-    var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
-    var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
-    message.setAttribute("class", "warehouseMessage");
-    message.setAttribute("id", data[data.length - 1].id);
-    message.innerHTML = data[data.length - 1].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[data.length - 1].message;
-    message.innerHTML = data[data.length - 1].name + " (" + timeString(data[data.length - 1].id) + "): " + data[data.length - 1].message;
-    return message;
-}
 
 //creates the disconnected status object
 const dcPopUp = () => {
@@ -125,6 +67,49 @@ function loopaudio(id) {
     }
 }
 
+
+const listenSocket = io('/listener');
+socket.on('connect', () => {});
+
+function removeAllChildNodes(parent) {
+    if (parent.firstChild != null) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+}
+//******************Cart Functions**********************
+
+//receive ready on main socket
+socket.on('cartReadySliderReady', () => {
+    //add ready alert message and audio
+    document.getElementById('alerts').appendChild(sirenAudio());
+    document.getElementById('alerts').appendChild(cartAlert());
+    //loop siren audio
+    loopaudio("siren");
+});
+
+//fires when a cart is ready at connection time
+socket.on('cartAlreadyReady', () => {
+    //check to see if the alert already exists, if not, play it
+    var check = document.getElementById("siren");
+    if (check == null) {
+        document.getElementById('alerts').appendChild(sirenAudio());
+        document.getElementById('alerts').appendChild(cartAlert());
+        loopaudio("siren");
+    }
+});
+
+//fires when the ready slider is unchecked
+socket.on('cartReadySliderTaken', () => {
+
+    //remove alert siren and mesage
+    var siren = document.getElementById("siren");
+    siren.remove();
+    var cartPopup = document.getElementById("cartPopup");
+    cartPopup.remove();
+});
+
 //creates siren audio element
 const sirenAudio = () => {
     const item = document.createElement('audio');
@@ -134,10 +119,108 @@ const sirenAudio = () => {
     return item;
 };
 
+
+
+//creates cart ready alert message
+const cartAlert = () => {
+    const item2 = document.createElement('div');
+    item2.setAttribute("class", "cart-blink-bg");
+    item2.setAttribute("id", "cartPopup");
+    item2.innerHTML = "CART READY";
+    return item2;
+}
+
+
+
+
+//************************Ticket Functions***************************
+
+//receive ready on main socket
+socket.on('ticketReadySliderReady', () => {
+    //add ready alert message and audio
+    document.getElementById('alerts').appendChild(ticketAudio());
+    document.getElementById('alerts').appendChild(ticketAlert());
+    //loop siren audio
+    loopaudio("ticketAudio");
+});
+
+//fires when a cart is ready at connection time
+socket.on('ticketAlreadyReady', () => {
+    //check to see if the alert already exists, if not, play it
+    var check = document.getElementById("ticketAudio");
+    if (check == null) {
+        document.getElementById('alerts').appendChild(ticketAudio());
+        document.getElementById('alerts').appendChild(ticketAlert());
+        loopaudio("ticketAudio");
+    }
+});
+
+//fires when the ready slider is unchecked
+socket.on('ticketReadySliderTaken', () => {
+
+    //remove alert siren and mesage
+    var siren = document.getElementById("ticketAudio");
+    siren.remove();
+    var ticketPopup = document.getElementById("ticketPopup");
+    ticketPopup.remove();
+});
+
+//creates siren audio element
+const ticketAudio = () => {
+    const item = document.createElement('audio');
+    item.setAttribute("src", "audio/Hey.mp3");
+    item.setAttribute("id", "ticketAudio");
+    item.setAttribute("autoplay", "autoplay")
+    return item;
+};
+
+
+
+//creates ticket ready alert message
+const ticketAlert = () => {
+    const item2 = document.createElement('div');
+    item2.setAttribute("class", "ticket-blink-bg");
+    item2.setAttribute("id", "ticketPopup");
+    item2.innerHTML = "TICKET READY";
+    return item2;
+}
+
+
+
+//************************Message Functions**************************
+
+//fires when message is sent to the warehouse
+socket.on('messageFromWarehouse', function(data) {
+    console.log('receieved messageFromWarehouse');
+    console.log(data);
+    //add message to screen and play alert sound once
+    document.getElementById('messages').appendChild(addMessage(data));
+    messageAudio();
+
+});
+
+socket.on('currentMessages', function(data) {
+    addMessages(data);
+});
+
+//adds single message from selector to warehouse screens
+//receives array of objects where most recent message is in the last position
+function addMessage(data) {
+    var message = document.createElement('div');
+    var date = new Date(data[data.length - 1].id);
+    var hours = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
+    var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
+    message.setAttribute("class", "warehouseMessage");
+    message.setAttribute("id", data[data.length - 1].id);
+    message.innerHTML = data[data.length - 1].name + " (" + hours + ":" + date.getMinutes() + " " + timeOfDay + "): " + data[data.length - 1].message;
+    message.innerHTML = data[data.length - 1].name + " (" + timeString(data[data.length - 1].id) + "): " + data[data.length - 1].message;
+    return message;
+}
+
 //creates message alert audio and removes after 3 seconds
 async function messageAudio() {
     const item = document.createElement('audio');
-    item.setAttribute("src", "audio/Hey.mp3");
+    item.setAttribute("src", "audio/metalgear.mp3");
     item.setAttribute("id", "messageSound");
     item.autoplay = true;
     document.getElementById('alerts').appendChild(item);
@@ -145,30 +228,10 @@ async function messageAudio() {
     document.getElementById('messageSound').remove();
 };
 
-//creates cart ready alert message
-const readyAlert = () => {
-    const item2 = document.createElement('div');
-    item2.setAttribute("class", "blink-bg");
-    item2.setAttribute("id", "popup");
-    item2.innerHTML = "CART READY";
-    return item2;
-}
-
-const listenSocket = io('/listener');
-socket.on('connect', () => {});
-
 listenSocket.on('currentMessages', function(data) {
     addMessages(data);
 });
 
-
-function sendReady() {
-    socket.emit('ready');
-};
-
-function sendTaken() {
-    socket.emit('taken');
-};
 
 function addMessages(data) {
     removeAllChildNodes(document.getElementById('messages'));
@@ -178,14 +241,6 @@ function addMessages(data) {
         message.setAttribute("id", data[i].id);
         message.innerHTML = data[i].name + " (" + timeString(data[i].id) + "): " + data[i].message;
         document.getElementById('messages').appendChild(message);
-    }
-}
-
-function removeAllChildNodes(parent) {
-    if (parent.firstChild != null) {
-        while (parent.firstChild) {
-            parent.removeChild(parent.firstChild);
-        }
     }
 }
 

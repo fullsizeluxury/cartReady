@@ -13,10 +13,18 @@
 <body>
     <div class="container">
 
-        <div id="readySwitch">
+        <div id="readySwitch" class="toggle">
             <h2 id="switchLabel">Cart Ready Toggle</h2>
             <label class="switch">
-                <input type="checkbox" onClick="myFunction()" id="readySlider">
+                <input type="checkbox" onClick="switchToggled('cartReadySlider')" id="cartReadySlider">
+                <span class="slider round">
+                </span>
+            </label>
+        </div>
+        <div id="pickTickets" class="toggle">
+            <h2 id="switchLabel">Pick Tickets Ready Toggle</h2>
+            <label class="switch">
+                <input type="checkbox" onClick="switchToggled('ticketReadySlider')" id="ticketReadySlider">
                 <span class="slider round">
                 </span>
             </label>

@@ -68,7 +68,7 @@ div {
   animation: blinkingBackground 4s infinite;
 }
 
-.blink-bg {
+.cart-blink-bg {
   color: #fff;
   font-size: 10vh;
   padding: 50px;
@@ -78,6 +78,15 @@ div {
   background-color: #ef0a1a;
 }
 
+.ticket-blink-bg {
+  color: #fff;
+  font-size: 10vh;
+  padding: 50px;
+  white-space: nowrap;
+  border-radius: 100px;
+  animation: blinkingBackground 4s infinite;
+  background-color: #3b3da8;
+}
 @keyframes blinkingBackground {
   0% {
     opacity: 0%;

@@ -1,7 +1,7 @@
 
 
 const socket = io();
-
+//Status Bar Functions
 socket.on('connect', () => {
     var dcPopup = document.getElementById("disconnectedPopup");
     if (dcPopup != null) {
@@ -10,7 +10,6 @@ socket.on('connect', () => {
     document.getElementById('statusBar').appendChild(connectedPopUp());
 
 });
-
 
 socket.on('disconnect', () => {
     var connected = document.getElementById("connectedPopUp");
@@ -49,51 +48,6 @@ socket.on('noListeners', () => {
     }
 });
 
-socket.on('ready', () => {
-    var slider = document.getElementById('readySlider');
-    if (slider.checked == false) {
-        slider.checked = true;
-        console.log('slider checked');
-    }
-    console.log('received ready');
-});
-
-socket.on('alreadyReady', () => {
-    var slider = document.getElementById('readySlider');
-    if (slider.checked == false) {
-        slider.checked = true;
-        console.log('slider checked');
-    }
-    console.log('received alreadyready');
-});
-
-socket.on('taken', () => {
-    var slider = document.getElementById('readySlider');
-    if (slider.checked) {
-        slider.checked = false;
-        console.log('slider unchecked');
-    }
-    console.log('received taken');
-
-});
-
-socket.on('messageFromWarehouse', function (data) {
-    console.log('receieved messageFromWarehouse');
-    console.log(data);
-    addMessages(data);
-
-});
-
-socket.on('currentMessages', function (data) {
-    addMessages(data);
-    console.log('added current messages');
-    console.log(data);
-    if (data.length == 0) {
-        document.getElementById('allMessages').innerHTML= 'No Messages';
-        console.log('length of 0')
-    }
-})
-
 const dcPopUp = () => {
     var disconnectedPopUp = document.createElement('div');
     disconnectedPopUp.setAttribute("class", "disconnected");
@@ -126,17 +80,105 @@ const connectedPopUp = () => {
     return connected;
 }
 
-function myFunction() {
+function removeAllChildNodes(parent) {
+    if (parent.firstChild != null) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+}
+
+//Cart Related Functions
+socket.on('cartReadySliderReady', () => {
+    var slider = document.getElementById('cartReadySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received ready');
+});
+
+socket.on('cartAlreadyReady', () => {
+    var slider = document.getElementById('cartReadySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received alreadyready');
+});
+
+socket.on('cartReadySliderTaken', () => {
+    var slider = document.getElementById('cartReadySlider');
+    if (slider.checked) {
+        slider.checked = false;
+        console.log('slider unchecked');
+    }
+    console.log('received taken');
+
+});
+
+function switchToggled(id) {
     // Get the checkbox
-    var checkBox = document.getElementById("readySlider");
+    var checkBox = document.getElementById(id);
     // If the checkbox is checked, display the output text
     if (checkBox.checked == true) {
-        socket.emit('ready');
+        socket.emit(id + 'Ready');
     } else {
-        socket.emit('taken');
+        socket.emit(id + 'Taken');
     }
 
 }
+
+//Pick Ticket Functions
+
+socket.on('ticketReadySliderReady', () => {
+    var slider = document.getElementById('ticketReadySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received ready');
+});
+
+socket.on('ticketAlreadyReady', () => {
+    var slider = document.getElementById('ticketReadySlider');
+    if (slider.checked == false) {
+        slider.checked = true;
+        console.log('slider checked');
+    }
+    console.log('received alreadyready');
+});
+
+socket.on('ticketReadySliderTaken', () => {
+    var slider = document.getElementById('ticketReadySlider');
+    if (slider.checked) {
+        slider.checked = false;
+        console.log('slider unchecked');
+    }
+    console.log('received taken');
+
+});
+
+
+
+//Message Functions
+
+socket.on('messageFromWarehouse', function (data) {
+    console.log('receieved messageFromWarehouse');
+    console.log(data);
+    addMessages(data);
+
+});
+
+socket.on('currentMessages', function (data) {
+    addMessages(data);
+    console.log('added current messages');
+    console.log(data);
+    if (data.length == 0) {
+        document.getElementById('allMessages').innerHTML = 'No Messages';
+        console.log('length of 0')
+    }
+})
 
 $('form[name="messagePrompt"]').submit(function (e) {
     e.preventDefault();
@@ -170,19 +212,6 @@ function addMessages(data) {
     }
 }
 
-function removeMessage(i) {
-    socket.emit('removeMessage', i);
-    console.log('remove message ' + i);
-}
-
-function removeAllChildNodes(parent) {
-    if (parent.firstChild != null) {
-        while (parent.firstChild) {
-            parent.removeChild(parent.firstChild);
-        }
-    }
-}
-
 function timeString(data) {
     var date = new Date(data);
     var timeOfDay = date.getHours() > 11 ? "PM" : "AM";
@@ -201,4 +230,9 @@ function timeString(data) {
         minutes = "0" + date.getMinutes();
     }
     return hours + ":" + minutes + " " + timeOfDay;
+}
+
+function removeMessage(i) {
+    socket.emit('removeMessage', i);
+    console.log('remove message ' + i);
 }
