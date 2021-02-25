@@ -63,7 +63,7 @@ function loopaudio(id) {
                 audioControl.play();
                 clearTimeout(delay);
             }
-        }, 60000);
+        }, 90000);
     }
 }
 
@@ -168,7 +168,7 @@ socket.on('ticketReadySliderTaken', () => {
 //creates siren audio element
 const ticketAudio = () => {
     const item = document.createElement('audio');
-    item.setAttribute("src", "audio/Hey.mp3");
+    item.setAttribute("src", "audio/listen.mp3");
     item.setAttribute("id", "ticketAudio");
     item.setAttribute("autoplay", "autoplay")
     return item;
